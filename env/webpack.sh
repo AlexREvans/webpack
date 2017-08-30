@@ -10,4 +10,6 @@ echo "deb https://dl.yarnpkg.com/debian/ stable main" | tee /etc/apt/sources.lis
 
 
 apt-get update -y 
-apt-get install -y nodejs yarn
+apt-get install -y nodejs
+apt-get install -y yarn
+apt-get install -y npm
