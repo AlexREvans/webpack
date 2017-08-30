@@ -1,7 +1,7 @@
 #!/bin/bash
 
 ## INSTALL NODE JS
-curl -sL https://deb.nodesource.com/setup_8.x | -E bash -
+curl -sL https://deb.nodesource.com/setup_8.x | sudo -E bash -
 
 
 ## INSTALL YARN
