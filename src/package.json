@@ -4,12 +4,17 @@
   "main": "index.js",
   "license": "MIT",
   "devDependencies": {
+    "babel-core": "^6.26.0",
+    "babel-loader": "^7.1.2",
+    "babel-preset-env": "^1.6.0",
     "webpack": "^3.5.5"
   },
   "dependencies": {
-    "loadash": "^1.0.0"
+    "loadash": "^1.0.0",
+    "webpack-dev-server": "^2.7.1"
   },
   "scripts": {
-    "build": "webpack"
+    "build": "webpack",
+    "start": "webpack-dev-server --host 0.0.0.0"
   }
 }
