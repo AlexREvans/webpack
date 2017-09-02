@@ -1,7 +1,5 @@
 #!/bin/bash
 
 IMG=${1:-toolchain}
-
-[[ -z "${2}" ]] || docker build -t "$IMG" .
 WS="/ws"
-exec docker run -v"$PWD:$WS" -ti -w "$WS" "$IMG"
+exec docker run -v"$PWD:$WS" -ti -w "$WS/src" -p"8080:8080" "$IMG"

@@ -16,3 +16,5 @@ RUN \
 RUN \
 	apt-get update -y && \
 	apt-get install -y nodejs yarn
+
+EXPOSE 8080
