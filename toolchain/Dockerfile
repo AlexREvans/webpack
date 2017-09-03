@@ -18,3 +18,6 @@ RUN \
 	apt-get install -y nodejs yarn
 
 EXPOSE 8080
+
+CMD ["run", "start"]
+ENTRYPOINT ["yarn"]
