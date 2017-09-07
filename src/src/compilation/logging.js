@@ -1,155 +1,53 @@
-function LoggingPlugin(options) {}
+function LoggingPlugin(options) { }
 
 
-LoggingPlugin.prototype.apply = function(compiler) {
+LoggingPlugin.prototype.apply = function (compiler) {
+
+  var rawBool = (node) => node && (node.value === true || node.value === false)
+
+  var isBooleanComparison = (op) => !![
+    "==", "===", "!==", "!="
+  ].find(t => t === op)
+
+  var stringer = (node) => {
+    switch (node.type) {
+      case 'Identifier': return node.name
+      case 'Literal': return node.value
+      case 'BinaryExpression': return stringer(node.left) + node.operator + stringer(node.right)
+      case 'CallExpression': return node.name + "(" + node.arguments.map(stringer) + ")"
+    }
+    return "todo"
+  }
 
   var badNodeTest = astCondExpressionNode => {
     var node = astCondExpressionNode;
-  
-    var rawBool = (node) => {
-      var f = (n, p) => n[p] === 'true' || n[p] === 'false'
-      var testIt = (node) => node && (node.value === true || node.value === false)
-      // console.log("-- "+ JSON.stringify(node) + " = " + testIt(node))
-      return testIt(node);
-        //node.type === 'Literal' && f(node, "value") && f(node, "raw")
-    }
-  
-    var isBooleanComparison = (op) => !![
-      "==", "===", "!==", "!="
-    ].find(t => t===op)
-  
-    if(node.type === "BinaryExpression") {
-      if( 
-        isBooleanComparison(node.operator)
-      ) {
 
-        if(rawBool(node.left)) {
+    if (node.type === "BinaryExpression" && isBooleanComparison(node.operator)) {
 
-        
-          console.log("==============================")
-          console.log("==FOUND ONE!!! ===============")
-          console.log(JSON.stringify(node))
-          console.log(node.left.value + node.operator + node.right.type)
-          //console.log(JSON.stringify(node, null, 2))
-          console.log("==============================")
-
-          } else if( rawBool(node.right)) {
-
-
-        
-            console.log("==============================")
-            console.log("==FOUND ONE!!! ===============")
-            console.log(JSON.stringify(node))
-            console.log(node.left.type + node.operator + node.right.value)
-            //console.log(JSON.stringify(node, null, 2))
-            console.log("==============================")
-
-          }
-  
-      return;
+      if (rawBool(node.left) || rawBool(node.right)) {
+        console.log("==============================")
+        console.log("==FOUND ONE!!! ===============")
+        console.log(stringer(node))
+        console.log("==============================")
       }
+
+      return true;
     }
-  
-    switch(astCondExpressionNode.type) {
-      // recursive calls to badNodeTest
+
+    switch (node.type) {
+      // Recurse on node type
+      /* case 'Identifier': return node.name 
+      case 'Literal': return node.value
+      case 'BinaryExpression': return stringer(node.left) + node.operator + stringer(node.right) */
     }
+
   }
-  
+
 
   compiler.parser.plugin("statement if", function (expr) {
-    //if you original module has 'var rewire'
-    //you now have a handle on the expresssion object   
-/*     if(expr.test.type !== 'BinaryExpression' || expr.test.left.name !== "rewire") return;
-
-    console.log("==================Hit==================")
-    console.log("== " + Object.keys(expr.test) + expr.test.type + " - " 
-      +expr.test.left + expr.test.operator +expr.test.right)
-      console.log(JSON.stringify(expr.test.right))
-    console.log("=======================================")
- */    
-
- badNodeTest(expr.test);
-
- return false;
+    var doesExpressionContainRedundantComparison = badNodeTest(expr.test);
+    return false;
   });
 }
-/* 
-  compiler.plugin('emit', function(compilation, callback) {
-    // Create a header string for the generated file:
-    /* var filelist = 'In this build:\n\n';
-
-    // Loop through all compiled assets,
-    // adding a new line item for each filename.
-    for (var filename in compilation.assets) {
-      filelist += ('- '+ filename +'\n');
-    }
-
-    // Insert this list into the webpack build as a new file asset:
-    compilation.assets['filelist.md'] = {
-      source: function() {
-        return filelist;
-      },
-      size: function() {
-        return filelist.length;
-      }
-    };
-
-    console.log("==========================");
-    console.log("==========================");
-    console.log("==========================");
-
-
-    var c = '';
-
-    Object.keys(compilation).forEach(k => {
-        c += k + '\n';
-        if(typeof(compilation[k]) === "object" && !compilation[k].length) {
-            Object.keys(compilation[k]).map(k2 => " - "+k2+'\n').forEach(a => c+=a)
-        }
-    })
-    compilation.assets['compilation'] = {
-        source: function() {
-          return c;
-        },
-        size: function() {
-          return c.length;
-        }
-      };
-    console.log("==========================");
-    console.log("==========================");
-    console.log("==========================");
- */
-
-
-
-    // Explore each chunk (build output):
-    //compilation.chunks.forEach(function(chunk) {
-        // Explore each module within the chunk (built inputs):
-        /* chunk.modules.forEach(function(module) {
-          // Explore each source file path that was included into the module:
-          module.fileDependencies.forEach(function(filepath) {
-            // we've learned a lot about the source structure now...
-
-            console.log(chunk + " - " + module + " - " + filepath)
-
-          });
-        });
-   
-        // Explore each asset filename generated by the chunk:
-        chunk.files.forEach(function(filename) {
-          // Get the asset source for each file generated by the chunk:
-          var source = compilation.assets[filename].source();
-
-          source.replace("gskgs", "replacement test");
-
-          compilation.assets[filename]._source = source;
-
-          console.log(filename);
-        });
-      });
-   */
-   // callback();
-  //});
-//};
 
 module.exports = LoggingPlugin;
