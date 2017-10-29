@@ -1,8 +1,7 @@
 const path = require('path')
 
-var loaders = arr => arr.map(x => x+"-loader").map(require) 
-
-loaders(["echo", "raw"])
+require("echo-loader")
+require("raw-loader")
 
 module.exports = {
   entry: './index.js',
