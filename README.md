@@ -93,6 +93,8 @@ See [Production example.](src/app/5.production)
 
 ## How does it work?
 
+https://github.com/webpack/webpack
+
 Everything in webpack is a plugin.
 
 Webpack is made up of an event emitting system (`Tapable`) and a lifecycle that describes the stages of a webpack build.
