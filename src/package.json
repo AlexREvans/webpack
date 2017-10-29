@@ -23,7 +23,7 @@
     "react-dom": "^16.0.0"
   },
   "scripts": {
-    "example": "read -p 'Which example [1-5]? ' example && cd app/$example* && webpack",
+    "example": "read -p 'Which example [1-4]? ' example && cd app/$example* && webpack",
 
     "start": "cd app/*dev* && webpack-dev-server --host 0.0.0.0",
 
