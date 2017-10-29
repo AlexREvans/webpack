@@ -1,23 +1,19 @@
 const path = require('path');
-const LoggingPlugin = require('./src/compilation/logging.js')
+const RedundantComparisonPlugin = require('./compilation/RedundantComparison.js')
 
 module.exports = {
-  entry: './src/index.js',
+  entry: './index.js',
   output: {
     filename: 'bundle.js',
     path: path.resolve(__dirname, 'dist')
   },
   plugins: [
-    new LoggingPlugin({})
+    new RedundantComparisonPlugin()
   ],
-  devServer: {
-    contentBase: './dist'
-  },
   module: {
     rules: [
       {
         test: /\.js$/,
-        exclude: /(node_modules|bower_components)/,
         use: {
           loader: 'babel-loader',
           options: {

@@ -1,22 +1,9 @@
-import _ from 'lodash';
+const someBoolean = true
 
-const component = () => {
-  var element = document.createElement('div');
-
-  var rewire = "Test";
-
-  if(rewire == true) {
-    console.log("Hjsfhs")
-  }
-
-  // Lodash, now imported by this script
-  element.innerHTML = _.join([
-    'Hello', 
-    'webpack', 
-    'gskgs'], 
-  ' ');
-
-  return element;
+if(someBoolean) {
+  console.log("Hello")
 }
 
-document.body.appendChild(component());
+if(someBoolean == true) {
+  console.log("World")
+}
