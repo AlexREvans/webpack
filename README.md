@@ -112,8 +112,8 @@ Each of these elements are exposed and can be plugged into.
 
 Deep dive: [Everything is a plugin! Mastering webpack from the inside out - Sean Larkin](https://www.youtube.com/watch?v=4tQiJaFzuJ8)
 
-## The fututre?
+## The future?
 
-[Vote on features that are developed next!](https://webpack.js.org/loaders/)
+[Vote on features that are developed next!](https://webpack.js.org/vote/)
 
 One particularly interesting proposal - WebAssembly support. If supported, you'd be able to include C/C++, Rust, etc files in your source tree. Requiring them would bundle them for use by your application!
