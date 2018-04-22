@@ -24,6 +24,7 @@
     "react-dom": "^16.0.0"
   },
   "scripts": {
+    "zero": "cd app/0* && webpack --mode='development'",
     "example": "read -p 'Which example [1-4]? ' example && cd app/$example* && webpack",
     "start": "cd app/*dev* && webpack-dev-server --host 0.0.0.0",
     "build:dev": "cd app/*prod* && webpack --config webpack.dev.js && du -h dist/*",

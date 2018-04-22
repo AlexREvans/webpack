@@ -1,14 +1,8 @@
-const path = require('path')
-
 require("echo-loader")
 require("raw-loader")
 
-module.exports = {
-  entry: './index.js',
-  output: {
-    filename: 'bundle.js',
-    path: path.resolve(__dirname, 'dist')
-  },
+module.exports = {  
+  mode: 'development',
   module: {
     rules: [
       

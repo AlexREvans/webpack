@@ -1,11 +1,15 @@
-const path = require('path')
+// const path = require('path')
 
 module.exports = {
-  entry: './index.js',
-  output: {
-    filename: 'bundle.js',
-    path: path.resolve(__dirname, 'dist')
-  },
+  mode: 'development',
+
+  // -- Lines excluded - they're defaults as of webpack 4!
+  // entry: './src/index.js',
+  // output: {
+  //   filename: 'main.js',
+  //   path: path.resolve(__dirname, 'dist')
+  // },
+  
   module: {
     rules: [
       { test: /\.js$/ }
