@@ -2,6 +2,32 @@ class RedundantComparisonPlugin {
 
   apply(compiler) {
 
+    // Plugins must be named in order to track progress
+    const pluginName = "RedundantComparisonPlugin";
+
+    // Take the compiler and tap into the compilation
+    compiler.hooks.compilation
+
+      // Extract the compilation and Module Factory for the compilation
+      .tap(pluginName, (compilation, { normalModuleFactory }) => {
+
+        // From the factory, tap into the javascript parser
+        normalModuleFactory.hooks.parser.for('javascript/auto')
+          .tap(pluginName, (parser) => {
+
+            // Tap into occurences of if statements and test them for redundant comparisons
+            parser.hooks.statementIf
+              .tap(pluginName, expr => this.badNodeTest(compilation, expr.test));
+          });
+
+      });
+
+  }
+
+
+
+  badNodeTest(compilation, astCondExpressionNode) {
+
     const isRawBool = (node) => node && (node.value === true || node.value === false)
 
     const isBooleanComparison = (op) => !![
@@ -10,63 +36,36 @@ class RedundantComparisonPlugin {
 
     const stringer = (node) => {
       switch (node.type) {
-        case 'Identifier': return node.name
-        case 'Literal': return node.value
-        case 'BinaryExpression': return stringer(node.left) + node.operator + stringer(node.right)
-        case 'CallExpression': return node.name + "(" + node.arguments.map(stringer) + ")"
+        case 'Identifier':
+          return node.name
+        case 'Literal':
+          return node.value
+        case 'BinaryExpression':
+          return stringer(node.left) + node.operator + stringer(node.right)
+        case 'CallExpression':
+          return node.name + "(" + node.arguments.map(stringer) + ")"
       }
       return "todo"
     }
 
-    const badNodeTest = (compilation, astCondExpressionNode) => {
-      const node = astCondExpressionNode;
+    const node = astCondExpressionNode;
 
-      if (
-        node.type === "BinaryExpression" &&
-        isBooleanComparison(node.operator) &&
-        (isRawBool(node.left) || isRawBool(node.right))) {
+    if (
+      node.type === "BinaryExpression" &&
+      isBooleanComparison(node.operator) &&
+      (isRawBool(node.left) || isRawBool(node.right))) {
 
-        compilation.errors.push(new Error('Found a redundant comparison ' + stringer(node)))
-        return true
-      }
-
-      switch (node.type) {
-        // Recurse on node type
-        default: return false
-      }
-
+      compilation.errors.push(new Error('Found a redundant comparison ' + stringer(node)))
+      return true
     }
 
-
-    const pluginName = "RedundantComparisonPlugin";
-
-    // compiler.hooks.compilation.tap(pluginName, (compilation, data) => {
-    //   data.normalModuleFactory.hooks.parser.tap(pluginName, (parser, options) => {
-    //     parser.hooks["statement if"].tap(pluginName, expr => badNodeTest(compilation, expr.test));
-    //   });
-    // });
-
-
-    // compiler.hooks.normalModuleFactory.tap(pluginName, factory => {
-    //   factory.hooks.parser.tap(pluginName, (parser) => {
-    //     parser.hooks.statementIf.tap(pluginName, expr => badNodeTest(compilation, expr.test))
-    //   })
-    // });
-
-
-    compiler.hooks.normalModuleFactory.tap(pluginName, factory => {
-      factory.hooks.parser.tap(pluginName, (parser, options) => {
-        console.log(parser.hooks.someHook.tap);
-      })
-    })
-
-    // compiler.plugin("compilation", (compilation, data) => {
-    //   data.normalModuleFactory.plugin("parser", (parser, options) => {
-    //     parser.plugin("statement if", expr => badNodeTest(compilation, expr.test));
-    //   });
-    // });
-
+    switch (node.type) {
+      // Recurse on node type
+      default: return false
+    }
   }
+
+
 }
 
 module.exports = RedundantComparisonPlugin
