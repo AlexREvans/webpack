@@ -29,6 +29,6 @@
     "start": "cd app/*dev* && webpack-dev-server --host 0.0.0.0",
     "build:dev": "cd app/*prod* && webpack --config webpack.dev.js && du -h dist/*",
     "build:prod": "cd app/*prod* && webpack --config webpack.prod.js && du -h dist/*",
-    "deadcode": "grep 'increases bundle size' app/*prod*/dist/app.bundle.js"
+    "deadcode": "grep 'increases bundle size' app/*prod*/dist/main.main.js"
   }
 }

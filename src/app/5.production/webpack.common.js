@@ -3,8 +3,7 @@ const CleanWebpackPlugin = require('clean-webpack-plugin');
 
 module.exports = {
   output: {
-    filename: '[name].main.js',
-    path: path.resolve(__dirname, 'dist')
+    filename: '[name].main.js'
   },
   plugins: [
     new CleanWebpackPlugin(['dist']),
