@@ -10,7 +10,7 @@ module.exports = {
     new CleanWebpackPlugin(['dist']),
     new HtmlWebpackPlugin({
       title: 'Development',
-      template: './index.html'
+      template: './src/index.html'
     })
   ],
 
