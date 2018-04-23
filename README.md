@@ -29,7 +29,7 @@ The number of requests to load all of the scripts for a page was controlled by c
 
 ## Why Webpack?
 
-The introduction of JavaScript modules allows encapsulation of individual scripts.
+The introduction of JavaScript modules allows for encapsulation of individual scripts.
 
 Webpack allows modules to be included and bundled as part of a concatenated output bundle. This provides the benefits of concatenation whilst maintaining the benefits of using JavaScript modules.
 
@@ -39,7 +39,7 @@ It's key to note that webpack is a build-time tool and doesn't load modules/etc 
 
 ## Why should I use it?
 
-The use of webpack mirrors a more traditional non-web toolchain. For other platforms, an intermediary step between code and the runtime is commonplace. Webpack provides that interface for a web application. It provides a means of determining what goes into your build artifact, optimising the artifact, transpiling and many more.
+The use of webpack mirrors a more traditional non-web toolchain. For other platforms, an intermediary step between code and the runtime is commonplace. Webpack provides that interface for a web application. It provides a means of determining what goes into your build artifact, optimising the artifact, transpiling and more.
 
 In addition to the control over the build artifacts, webpack also provides a useful interface for bringing together the increasing number of tools involved in building a web application.
 
