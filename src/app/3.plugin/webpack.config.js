@@ -1,4 +1,4 @@
-const RedundantComparisonPlugin = require('./compilation/RedundantComparison.js')
+const RedundantComparisonPlugin = require('./src/compilation/RedundantComparison.js')
 
 module.exports = {
   mode: 'development',

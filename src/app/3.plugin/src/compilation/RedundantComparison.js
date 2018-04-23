@@ -2,13 +2,13 @@ class RedundantComparisonPlugin {
 
   apply(compiler) {
 
-    var isRawBool = (node) => node && (node.value === true || node.value === false)
+    const isRawBool = (node) => node && (node.value === true || node.value === false)
 
-    var isBooleanComparison = (op) => !![
+    const isBooleanComparison = (op) => !![
       "==", "===", "!==", "!="
     ].find(t => t === op)
 
-    var stringer = (node) => {
+    const stringer = (node) => {
       switch (node.type) {
         case 'Identifier': return node.name
         case 'Literal': return node.value
@@ -18,8 +18,8 @@ class RedundantComparisonPlugin {
       return "todo"
     }
 
-    var badNodeTest = (compilation, astCondExpressionNode) => {
-      var node = astCondExpressionNode;
+    const badNodeTest = (compilation, astCondExpressionNode) => {
+      const node = astCondExpressionNode;
 
       if (
         node.type === "BinaryExpression" &&
@@ -36,11 +36,35 @@ class RedundantComparisonPlugin {
       }
 
     }
-    compiler.plugin("compilation", (compilation, data) => {
-      data.normalModuleFactory.plugin("parser", (parser, options) => {
-        parser.plugin("statement if", expr => badNodeTest(compilation, expr.test));
-      });
-    });
+
+
+    const pluginName = "RedundantComparisonPlugin";
+
+    // compiler.hooks.compilation.tap(pluginName, (compilation, data) => {
+    //   data.normalModuleFactory.hooks.parser.tap(pluginName, (parser, options) => {
+    //     parser.hooks["statement if"].tap(pluginName, expr => badNodeTest(compilation, expr.test));
+    //   });
+    // });
+
+
+    // compiler.hooks.normalModuleFactory.tap(pluginName, factory => {
+    //   factory.hooks.parser.tap(pluginName, (parser) => {
+    //     parser.hooks.statementIf.tap(pluginName, expr => badNodeTest(compilation, expr.test))
+    //   })
+    // });
+
+
+    compiler.hooks.normalModuleFactory.tap(pluginName, factory => {
+      factory.hooks.parser.tap(pluginName, (parser, options) => {
+        console.log(parser.hooks.someHook.tap);
+      })
+    })
+
+    // compiler.plugin("compilation", (compilation, data) => {
+    //   data.normalModuleFactory.plugin("parser", (parser, options) => {
+    //     parser.plugin("statement if", expr => badNodeTest(compilation, expr.test));
+    //   });
+    // });
 
   }
 }
