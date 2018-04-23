@@ -21,7 +21,8 @@
   },
   "dependencies": {
     "react": "^16.3.2",
-    "react-dom": "^16.3.2"
+    "react-dom": "^16.3.2",
+    "reveal": "^0.0.4"
   },
   "scripts": {
     "zero": "cd app/0* && webpack --mode='development'",
