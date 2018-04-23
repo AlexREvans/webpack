@@ -43,6 +43,12 @@ The use of webpack mirrors a more traditional non-web toolchain. For other platf
 
 In addition to the control over the build artifacts, webpack also provides a useful interface for bringing together the increasing number of tools involved in building a web application.
 
+## Zero config! (As of Webpack 4)
+
+Getting started with webpack is easy. Webpack is configured with "sensible defaults" allowing you to build an application without providing a webpack configuration file at all! 
+
+See [Zero Config example.](src/app/1.zeroconf)
+
 ## Key concepts
 
 ### Entry
@@ -118,4 +124,15 @@ Deep dive: [Everything is a plugin! Mastering webpack from the inside out - Sean
 
 [Vote on features that are developed next!](https://webpack.js.org/vote/)
 
-One particularly interesting proposal - WebAssembly support. If supported, you'd be able to include C/C++, Rust, etc files in your source tree. Requiring them would bundle them for use by your application!
+When this guide was first arranged there was a proposal for WebAssembly support. This proposal has since been accepted and implemented! It's still experimental but you can now include C/C++, Rust, etc files in your source tree. Requiring them will bundle them for use by your application!
+
+[Native WebAssembly loader for Webpack:](https://users.rust-lang.org/t/native-webassembly-loader-for-webpack/14407)
+```javascript
+import loadRustlib from './path/to/rustlib/src/lib.rs'
+
+loadRustlib().then(result => {
+  // This is a normal #[no_mangle] Rust function: fn add(i32, i32) -> i32
+  const add = result.instance.exports['add'];
+  console.log('return value was', add(2, 3));
+});
+```
